@@ -22,7 +22,7 @@ services:
     volumes:
       - /root/ai-consult/logs:/app/logs
     networks:
-      - ignite-production-network
+      - ai-consult-network
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1))"]
       interval: 30s
@@ -31,12 +31,48 @@ services:
       start_period: 20s
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ai-consult.rule=Host(`consult.247ignite.com`)"
+      - "traefik.http.routers.ai-consult.rule=Host(`247ignite.com`) || Host(`www.247ignite.com`)"
       - "traefik.http.routers.ai-consult.entrypoints=websecure"
       - "traefik.http.routers.ai-consult.tls.certresolver=letsencrypt"
       - "traefik.http.services.ai-consult.loadbalancer.server.port=3000"
+    depends_on:
+      - traefik
+
+  # Traefik Reverse Proxy with Let's Encrypt
+  traefik:
+    image: traefik:v3.0
+    container_name: ai-consult-traefik
+    restart: unless-stopped
+    command:
+      - "--api.dashboard=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=info@247ignite.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--log.level=WARN"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt_data:/letsencrypt
+    networks:
+      - ai-consult-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.redirect-https.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirect-https.entrypoints=web"
+      - "traefik.http.routers.redirect-https.middlewares=redirect-to-https"
+
+volumes:
+  letsencrypt_data:
+    driver: local
 
 networks:
-  ignite-production-network:
-    external: true
-    name: real-web_ignite-production-network
+  ai-consult-network:
+    driver: bridge

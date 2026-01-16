@@ -15,11 +15,12 @@ NC='\033[0m' # No Color
 
 # Configuration
 PROJECT_NAME="ai-consult"
-DOMAIN="consult.247ignite.com"
+DOMAIN="247ignite.com"
 SERVER_IP="146.190.38.177"
 SERVER_USER="root"
 APP_DIR="/root/ai-consult"
 GITHUB_REPO="https://github.com/jbriner/ai-consult.git"
+OLD_APP_DIR="/root/real-web"
 
 # Function to print colored output
 print_status() {
@@ -41,6 +42,18 @@ print_error() {
 # Deploy to Production server
 deploy_to_production() {
     print_status "Deploying AI Consult to Production server..."
+
+    # Step 0: Stop old real-web containers
+    print_status "Stopping old real-web containers..."
+    ssh ${SERVER_USER}@${SERVER_IP} << EOF
+        set -e
+        if [ -d "${OLD_APP_DIR}" ]; then
+            echo "🛑 Stopping old real-web containers..."
+            cd ${OLD_APP_DIR}
+            docker compose -f docker-compose.production.yml down || true
+            echo "✅ Old containers stopped"
+        fi
+EOF
 
     # Step 1: Clone or pull code
     print_status "Setting up code on server..."
@@ -102,8 +115,7 @@ EOF
 
     if [ $? -eq 0 ]; then
         print_success "Deployment completed!"
-        print_success "Site will be available at: https://${DOMAIN}"
-        print_warning "Note: DNS must be configured to point ${DOMAIN} to ${SERVER_IP}"
+        print_success "Site is now live at: https://${DOMAIN}"
     else
         print_error "Deployment failed!"
         exit 1
