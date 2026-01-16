@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  ai-consult-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-consult-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    env_file:
+      - .env
+    volumes:
+      - logs_data:/app/logs
+    networks:
+      - ai-consult-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  logs_data:
+
+networks:
+  ai-consult-network:
+    driver: bridge

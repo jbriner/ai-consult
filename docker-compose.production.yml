@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  ai-consult-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-consult-production-app
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    env_file:
+      - .env.production
+    volumes:
+      - /var/www/ai-consult/logs:/app/logs
+    networks:
+      - ai-consult-production-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ai-consult.rule=Host(`ai-consult.yourdomain.com`)"
+      - "traefik.http.routers.ai-consult.entrypoints=websecure"
+      - "traefik.http.routers.ai-consult.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ai-consult.loadbalancer.server.port=3000"
+
+  traefik:
+    image: traefik:v3.0
+    container_name: ai-consult-traefik
+    restart: always
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.email=admin@yourdomain.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt_data:/letsencrypt
+    networks:
+      - ai-consult-production-network
+
+volumes:
+  letsencrypt_data:
+
+networks:
+  ai-consult-production-network:
+    driver: bridge
