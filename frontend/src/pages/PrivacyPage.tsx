@@ -160,7 +160,7 @@ function PrivacyPage() {
 
       <footer className="py-12 px-6 bg-gray-900 text-gray-400">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div className="col-span-2">
               <Link to="/" className="flex items-center gap-2 mb-4">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
@@ -174,18 +174,12 @@ function PrivacyPage() {
               </p>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <h4 className="text-white font-semibold mb-4">Links</h4>
               <ul className="space-y-2">
                 <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
                 <li><Link to="/#services" className="hover:text-white transition-colors">Services</Link></li>
                 <li><Link to="/#contact" className="hover:text-white transition-colors">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2">
                 <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>

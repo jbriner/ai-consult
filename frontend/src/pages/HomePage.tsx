@@ -63,12 +63,11 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto">
+          <div className="grid grid-cols-3 gap-6 mt-20 max-w-3xl mx-auto">
             {[
-              { label: 'AI Specializations', value: '6' },
-              { label: 'Reliability', value: '24/7' },
-              { label: 'Custom Solutions', value: '100%' },
-              { label: 'Response Time', value: '<24h' },
+              { label: 'Rapid project kickoff', value: 'Fast' },
+              { label: 'Tailored engagement models', value: 'Flexible' },
+              { label: 'Dedicated to your success', value: 'Focused' },
             ].map((stat, idx) => (
               <div key={idx} className="text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/15 transition-all">
                 <div className="text-3xl font-bold text-white mb-2">
@@ -159,7 +158,7 @@ function HomePage() {
                   },
                   {
                     title: 'Technical Excellence',
-                    description: 'PhDs and senior engineers specializing in deep learning, NLP, computer vision, and more.',
+                    description: 'Senior engineers specializing in deep learning, NLP, computer vision, and more.',
                   },
                   {
                     title: 'Business Focus',
@@ -209,8 +208,8 @@ function HomePage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: '24/7 Support',
-                description: 'Round-the-clock availability ensuring your AI systems run smoothly without interruption.',
+                title: 'Dedicated Partnership',
+                description: 'A committed team that works alongside you from strategy through implementation and beyond.',
                 gradient: 'from-blue-600 to-cyan-500',
               },
               {
@@ -269,16 +268,13 @@ function HomePage() {
             <a href="#contact" className="px-8 py-4 bg-white text-blue-600 rounded-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 font-semibold text-lg">
               Schedule Consultation
             </a>
-            <button className="px-8 py-4 bg-transparent text-white border-2 border-white rounded-lg hover:bg-white hover:text-blue-600 transition-all duration-200 font-semibold text-lg">
-              Download Brochure
-            </button>
           </div>
         </div>
       </section>
 
       <footer className="py-12 px-6 bg-gray-900 text-gray-400">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div className="col-span-2">
               <Link to="/" className="flex items-center gap-2 mb-4">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-lg flex items-center justify-center">
@@ -292,20 +288,10 @@ function HomePage() {
               </p>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-4">Company</h4>
+              <h4 className="text-white font-semibold mb-4">Links</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
                 <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2">
                 <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
               </ul>
             </div>
           </div>
