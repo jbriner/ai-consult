@@ -264,7 +264,7 @@ function FunnelPage() {
       <footer className="relative z-10 px-6 py-8 border-t border-white/10">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-blue-300/60 text-sm">
-            &copy; 2024 247ignite.com All rights reserved.
+            &copy; 2024 247ignite. All rights reserved.
           </p>
         </div>
       </footer>

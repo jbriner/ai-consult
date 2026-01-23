@@ -296,7 +296,7 @@ function HomePage() {
             </div>
           </div>
           <div className="pt-8 border-t border-gray-800 text-center">
-            <p>&copy; 2024 247ignite.com All rights reserved.</p>
+            <p>&copy; 2024 247ignite. All rights reserved.</p>
           </div>
         </div>
       </footer>
